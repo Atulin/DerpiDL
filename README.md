@@ -6,7 +6,7 @@ ____
 
 ## Usage
 
-* `--key` or `-K` to pass your API key
+* `--key` or `-K` to pass your API key. You only need to supply it once, it's saved in `derpidl.cfg`
 * `--limit` or `-L` to set the limit of pages
 * Any other strings passed as arguments are treated as tags to search for
 

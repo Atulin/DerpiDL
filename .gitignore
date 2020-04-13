@@ -11,3 +11,8 @@ bin/
 
 # IntelliJ files
 .idea/
+
+# Config file
+/derpidl.cfg
+/src/derpidl.cfg
+/bin/derpidl.cfg

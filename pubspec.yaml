@@ -1,5 +1,5 @@
 name: DerpiDL
-description: A simple command-line application.
+description: A simple command-line application for downloading Derpibooru images.
 version: 1.0.0
 
 environment:

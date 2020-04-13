@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:args/args.dart';
 
@@ -8,6 +9,7 @@ const api = 'https://derpibooru.org/api/v1/json/search/images';
 Future<void> main(List<String> arguments) async {
   var dio = Dio();
   var parser = ArgParser();
+  var cfg = File('./derpidl.cfg');
 
   // Parser config
   parser.addOption('key', abbr: 'K', help: 'Your API key from Derpibooru');
@@ -17,6 +19,14 @@ Future<void> main(List<String> arguments) async {
   var limit = int.parse(options['limit']);
   var search = options.rest.join(' ');
 
+  // Config
+  if (await cfg.exists()) {
+    key = await cfg.readAsString();
+  } else {
+    await cfg.create();
+  }
+  await cfg.writeAsString(key);
+
   // Initial vars
   var images = [[],[],[],[],[]];
   var res;
@@ -25,7 +35,9 @@ Future<void> main(List<String> arguments) async {
   var list_idx = 0;
 
   // Fetch pages until the URL either returns 404 or limit is reached
+  print('Collecting pages...');
   do {
+    print('Collecting page ${idx}');
     res = await dio.get(api, queryParameters: {
       'key': key,
       'q': search,
@@ -43,12 +55,18 @@ Future<void> main(List<String> arguments) async {
       }
 
     }
-  } while (res.statusCode == 200 && idx <= limit);
+  } while (res.statusCode == 200 && (idx <= limit || limit == 0));
+
+  print('Collected all pages.');
+  print('Downloading images...');
 
   // Download 5 images at once, one per list at a time
   for (var lst in images) {
     for (String i in lst) {
-      await dio.download(i, './dl/' + i.split('/').last);
+      await dio.download(i, './dl/' + i.split('/').last)
+          .then((_) => { print('Downloaded ${i}') });
     }
   }
+
+  print('All images downloaded.');
 }
