@@ -4,7 +4,8 @@
 pubspec.lock
 
 # Any images downloaded while testing
-bin/dl/
+/bin/dl/
+/src/dl/
 
 # Built binaries
 bin/
@@ -13,6 +14,6 @@ bin/
 .idea/
 
 # Config file
-/derpidl.cfg
+/derpidl.cfgcd ../
 /src/derpidl.cfg
 /bin/derpidl.cfg

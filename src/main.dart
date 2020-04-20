@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:args/args.dart';
+import 'package:path/path.dart' show dirname, join;
 
 
 const api = 'https://derpibooru.org/api/v1/json/search/images';
@@ -9,7 +10,7 @@ const api = 'https://derpibooru.org/api/v1/json/search/images';
 Future<void> main(List<String> arguments) async {
   var dio = Dio();
   var parser = ArgParser();
-  var cfg = File('./derpidl.cfg');
+  var cfg = File(join(dirname(Platform.script.path), '/derpidl.cfg'));
 
   // Parser config
   parser.addOption('key', abbr: 'K', help: 'Your API key from Derpibooru');
@@ -35,6 +36,7 @@ Future<void> main(List<String> arguments) async {
   var list_idx = 0;
 
   // Fetch pages until the URL either returns 404 or limit is reached
+  print('Downloading [${search}] with key ${key}');
   print('Collecting pages...');
   do {
     print('Collecting page ${idx}');
