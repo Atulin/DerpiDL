@@ -1,6 +1,6 @@
 name: DerpiDL
 description: A simple command-line application for downloading Derpibooru images.
-version: 1.0.0
+version: 1.2.0
 
 environment:
   sdk: '>=2.7.0 <3.0.0'
